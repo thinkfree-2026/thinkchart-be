@@ -1,0 +1,54 @@
+name: "[BE] Google Chat Advanced Notifier"
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed, review_requested]
+    branches: [main]
+  pull_request_review:
+    types: [submitted]
+  issue_comment:
+    types: [created]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request || github.event.issue.pull_request
+    steps:
+      - name: Send Notification
+        run: |
+          AUTHOR="${{ github.actor }}"
+          PR_TITLE="${{ github.event.pull_request.title || github.event.issue.title }}"
+          PR_URL="${{ github.event.pull_request.html_url || github.event.issue.html_url }}"
+          
+          # 이벤트별 커스텀 메시지
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            case "${{ github.event.action }}" in
+              opened) MSG="🚀 *새로운 PR 도착*" ;;
+              synchronize) MSG="♻️ *코드 업데이트 (Sync)*" ;;
+              review_requested) MSG="👀 *리뷰어로 지명되셨습니다!* (요청자: $AUTHOR)" ;;
+              closed)
+                if [ "${{ github.event.pull_request.merged }}" == "true" ]; then MSG="✅ *머지 완료! 고생하셨습니다.*";
+                else MSG="🗑️ *PR이 머지 없이 닫혔습니다.*"; fi ;;
+            esac
+          elif [ "${{ github.event_name }}" == "pull_request_review" ]; then
+            case "${{ github.event.review.state }}" in
+              approved) MSG="👍 *리뷰 승인 (Approved)*" ;;
+              changes_requested) MSG="🛠️ *수정 요청 (Changes Requested)*" ;;
+              commented) MSG="💬 *코드 리뷰 댓글*" ;;
+            esac
+          elif [ "${{ github.event_name }}" == "issue_comment" ]; then
+            MSG="💬 *새로운 댓글 등록*"
+          fi
+          FULL_MSG=$(cat <<EOF
+          💌 *[BE]* $MSG
+          
+          📌 *$PR_TITLE*
+          - 작성자: $AUTHOR
+          - 바로가기: $PR_URL
+          EOF
+          )
+          JSON_PAYLOAD=$(jq -n --arg txt "$FULL_MSG" '{text: $txt}')
+          # 구글 챗 전송
+          curl -X POST -H "Content-Type: application/json; charset=UTF-8" \
+            -d "$JSON_PAYLOAD" \
+            "${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}"
