@@ -1,0 +1,119 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: "ko-KR" # 리뷰 코멘트를 한국어로 생성
+early_access: false # 실험 기능 비활성화 (안정성 우선)
+
+reviews:
+  profile: "chill" # 리뷰 강도 낮음 (핵심 위주, 과도한 지적 방지)
+  request_changes_workflow: false # "Changes requested" 워크플로우 비활성화 (개인 프로젝트에 적합)
+  high_level_summary: true # PR 전체 요약 제공
+  review_status: true # PR 상태(리뷰 완료 여부 등) 표시
+  commit_status: true # 커밋 단위 리뷰 상태 표시
+  fail_commit_status: false # 리뷰 문제 있어도 CI 실패로 처리하지 않음
+  collapse_walkthrough: true # 상세 리뷰를 접어서 UI 간결하게 유지
+  changed_files_summary: true # 변경 파일 요약 제공
+  sequence_diagrams: false # 시퀀스 다이어그램 생성 비활성화 (불필요한 리소스 절약)
+  estimate_code_review_effort: false # 리뷰 난이도/시간 추정 비활성화
+  assess_linked_issues: true # PR에 연결된 이슈 분석
+  related_issues: true # 관련 이슈 자동 탐색
+  related_prs: true # 관련 PR 자동 탐색
+  suggested_labels: true # PR에 붙일 라벨 추천
+  auto_apply_labels: false # 라벨 자동 적용 안함 (수동 선택)
+  suggested_reviewers: false # 리뷰어 추천 비활성화 (개인 프로젝트라 불필요)
+  auto_assign_reviewers: false # 리뷰어 자동 지정 비활성화
+  in_progress_fortune: false # 진행 중 메시지(유머 요소) 비활성화
+  poem: false # 리뷰를 시 형태로 생성하지 않음
+  enable_prompt_for_ai_agents: true # AI 에이전트 프롬프트 기능 활성화
+
+  path_filters:
+    - "!**/build/**" # 빌드 결과물 제외
+    - "!**/out/**" # IDE 출력 디렉토리 제외
+    - "!**/target/**" # Maven 빌드 결과 제외
+    - "!**/.gradle/**" # Gradle 캐시 제외
+    - "!**/dist/**" # 배포 산출물 제외
+    - "!**/coverage/**" # 테스트 커버리지 결과 제외
+    - "!**/*.png" # 이미지 파일 제외
+    - "!**/*.jpg"
+    - "!**/*.jpeg"
+    - "!**/*.gif"
+    - "!**/*.svg"
+    - "!**/*.lock" # lock 파일 제외
+    - "!**/generated/**" # 자동 생성 코드 제외
+    - "!**/__generated__/**"
+
+  path_instructions:
+    - path: "src/main/java/**/*.java"
+      instructions: |
+        # 전체 Java 코드 리뷰 기준 (Spring Boot 중심)
+
+        You are reviewing a personal Spring Boot backend project.
+
+        # 실질적인 문제만 잡기
+        Focus on practical issues that meaningfully improve correctness and maintainability.
+
+        Review for:
+        - Bugs, null-safety issues, and unexpected runtime behavior.  # 실제 버그
+        - Clear separation between controller, service, repository, and DTO responsibilities. # 계층 분리
+        - Proper use of validation, exception handling, and HTTP status codes. # API 안정성
+        - Transaction boundary issues when they can cause real bugs. # 트랜잭션 문제
+        - Obvious JPA/Hibernate performance risks such as N+1 queries. # 성능 문제
+        - Security-sensitive mistakes such as missing authorization checks or leaked secrets. # 보안
+        - Readability problems only when they make the code harder to maintain. # 유지보수성
+
+        Avoid:
+        - Excessive style nitpicks. # 스타일 과도 지적 금지
+        - Premature abstraction suggestions. # 불필요한 추상화 금지
+        - Over-engineering advice for small personal-project code. # 과설계 방지
+        - Blocking comments for minor preferences. # 사소한 걸로 막지 않기
+
+    - path: "src/test/**/*.java"
+      instructions: |
+        # 테스트 코드 리뷰 기준
+
+        Review tests with a practical mindset.
+
+        Focus on:
+        - Whether important behavior and edge cases are covered. # 핵심 테스트 여부
+        - Whether tests are readable and maintainable. # 가독성
+        - Obvious over-mocking or flaky test risks. # 불안정 테스트
+
+        Avoid asking for exhaustive test coverage unless the changed code is critical. # 과한 테스트 요구 금지
+
+    - path: "**/*.{yml,yaml,properties}"
+      instructions: |
+        # 설정 파일 리뷰 기준
+
+        Review Spring Boot configuration changes.
+
+        Focus on:
+        - Secret leakage. # 민감 정보 노출
+        - Unsafe production-like defaults. # 위험한 기본값
+        - Profile mistakes. # 프로파일 오류
+        - Configuration changes that can break local execution. # 실행 깨짐 방지
+
+    - path: "pom.xml"
+      instructions: |
+        # 의존성 변경 리뷰 기준
+
+        Review Maven dependency changes.
+
+        Focus on:
+        - Unnecessary dependencies. # 불필요 의존성
+        - Wrong dependency scopes. # scope 오류
+        - Risky version changes. # 버전 변경 리스크
+        - Security-sensitive or outdated dependencies. # 보안 취약점
+
+  auto_review:
+    enabled: true # PR 생성/업데이트 시 자동 리뷰 수행
+    drafts: true # Draft PR도 리뷰 수행
+
+  tools:
+    osvScanner:
+      enabled: true # 의존성 취약점 검사 (pom.xml 기반)
+    gitleaks:
+      enabled: true # Git에 포함된 시크릿(토큰, 키 등) 탐지
+    markdownlint:
+      enabled: true # README 등 Markdown 문법 검사
+
+chat:
+  auto_reply: true # PR 코멘트에 자동 응답
