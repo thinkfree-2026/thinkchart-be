@@ -1,2 +1,5 @@
-package com.thinkfree.thinkchart.circle.dto;public class UpdateCircleRequest {
+package com.thinkfree.thinkchart.circle.dto;
+
+public class UpdateCircleRequest {
+
 }

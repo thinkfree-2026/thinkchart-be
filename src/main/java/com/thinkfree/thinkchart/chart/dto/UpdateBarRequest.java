@@ -1,2 +1,5 @@
-package com.thinkfree.thinkchart.chart.dto;public class UpdateBarRequest {
+package com.thinkfree.thinkchart.chart.dto;
+
+public class UpdateBarRequest {
+
 }
