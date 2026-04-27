@@ -1,5 +1,10 @@
 spring:
   application:
     name: thinkchart
+
   profiles:
     include: secret
+
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/testdb}
