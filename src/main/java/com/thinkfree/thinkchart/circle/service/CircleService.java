@@ -42,5 +42,14 @@ public class CircleService {
         return response;
     }
 
+    public void deleteCircle(List<String> ids) {
+        List<Circle> circles = circleRepository.findAllById(ids);
+        circleRepository.deleteAllById(ids);
 
+        List<CircleResponse> responses = circles.stream()
+                .map(circle -> CircleResponse.from(circle))
+                .toList();
+
+        messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CIRCLE_DELETED, responses));
+    }
 }

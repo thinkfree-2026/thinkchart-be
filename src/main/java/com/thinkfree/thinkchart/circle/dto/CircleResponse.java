@@ -2,7 +2,6 @@ package com.thinkfree.thinkchart.circle.dto;
 
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 @Getter
 @AllArgsConstructor

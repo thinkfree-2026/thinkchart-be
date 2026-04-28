@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@ToString
 @Builder
 @Document(collection = "circles")
 public class Circle {

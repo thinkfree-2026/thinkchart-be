@@ -1,6 +1,5 @@
 package com.thinkfree.thinkchart.circle.controller;
 
-import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
 import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
@@ -11,9 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Tag(name = "원 API", description = "원 생성/변경/삭제")
@@ -47,14 +46,16 @@ public class CircleController {
 
     @Operation(summary = "원 단건 삭제 (HTTP)", description = "선택된 원 단건을 삭제한다.")
     @DeleteMapping("/canvas/circles/{id}")
-    public void deleteCircle(@PathVariable String id) {
-        // 실제 로직은 구현하지 않음 (문서 노출용)
+    public ApiResponse<String> deleteCircle(@PathVariable String id) {
+        circleService.deleteCircle(Collections.singletonList(id));
+        return ApiResponse.of(ApiResponseCode.CIRCLE_DELETED);
     }
 
     @Operation(summary = "원 다건 삭제 (HTTP)", description = "선택된 원 다건을 삭제한다.")
     @DeleteMapping("/canvas/circles")
-    public void deleteCircles(@RequestParam String ids) {
-        // 실제 로직은 구현하지 않음 (문서 노출용)
+    public ApiResponse<String> deleteCircles(@RequestParam List<String> ids) {
+        circleService.deleteCircle(ids);
+        return ApiResponse.of(ApiResponseCode.CIRCLE_DELETED);
     }
 
     @Operation(summary = "원 옵션 변경 (HTTP)", description = "선택된 원의 사용여부/크기/색상을 변경한다.")
