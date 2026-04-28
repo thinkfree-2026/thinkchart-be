@@ -13,30 +13,18 @@ public class CreateCircleRequest {
 
     @Schema(description = "X좌표", example = "0.8")
     @NotBlank
-    private double x;
+    private Double centerX;
 
     @Schema(description = "Y좌표", example = "-0.2")
     @NotBlank
-    private double y;
+    private Double centerY;
 
-    @Schema(description = "지름", example = "17")
+    @Schema(description = "반지름", example = "17")
     @NotBlank
-    private double size;
+    private Double radius;
 
-    @Schema(description = "색상 r", example = "0.28298955543590565")
+    @Schema(description = "색상", example = "#00FF00")
     @NotBlank
-    private double r;
-
-    @Schema(description = "색상 g", example = "0.5171325916737295")
-    @NotBlank
-    private double g;
-
-    @Schema(description = "색상 b", example = "0.13165857375876888")
-    @NotBlank
-    private double b;
-
-    @Schema(description = "투명도", example = "1")
-    @NotBlank
-    private double a;
+    private String color;
 
 }
