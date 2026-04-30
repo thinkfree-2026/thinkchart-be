@@ -3,6 +3,7 @@ package com.thinkfree.thinkchart.circle.dto;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class CreateCircleRequest {
 
     @Schema(description = "지름", example = "17.5")
     @NotNull
+    @Positive
     private Double diameter;
 
 

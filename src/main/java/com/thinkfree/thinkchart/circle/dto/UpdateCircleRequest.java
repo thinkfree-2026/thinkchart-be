@@ -2,6 +2,7 @@ package com.thinkfree.thinkchart.circle.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,30 +15,25 @@ import lombok.ToString;
 public class UpdateCircleRequest {
 
     @Schema(description = "X좌표", example = "10.2")
-    @NotNull
     private Double x;
 
     @Schema(description = "Y좌표", example = "5.8")
-    @NotNull
     private Double y;
 
     @Schema(description = "지름", example = "9.5")
-    @NotNull
+    @Positive
     private Double diameter;
 
     @Schema(description = "Red 컬러", example = "0.111")
-    @NotNull
     private Double red;
 
     @Schema(description = "Green 컬러", example = "0.222")
-    @NotNull
     private Double green;
 
     @Schema(description = "Blue 컬러", example = "0.333")
-    @NotNull
     private Double blue;
 
     @Schema(description = "투명도", example = "0.9")
-    @NotNull
+    @Positive
     private Double opacity;
 }
