@@ -5,6 +5,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -31,4 +33,60 @@ public class Circle {
 
     @CreatedDate
     private Long createdAt;
+
+    public boolean updateX(Double x) {
+        if (Objects.equals(this.x, x)) {
+            return false;
+        }
+        this.x = x;
+        return true;
+    }
+
+    public boolean updateY(Double y) {
+        if (Objects.equals(this.y, y)) {
+            return false;
+        }
+        this.y = y;
+        return true;
+    }
+
+    public boolean updateDiameter(Double diameter) {
+        if (Objects.equals(this.diameter, diameter)) {
+            return false;
+        }
+        this.diameter = diameter;
+        return true;
+    }
+
+    public boolean updateRed(Double red) {
+        if (Objects.equals(this.red, red)) {
+            return false;
+        }
+        this.red = red;
+        return true;
+    }
+
+    public boolean updateGreen(Double green) {
+        if (Objects.equals(this.green, green)) {
+            return false;
+        }
+        this.green = green;
+        return true;
+    }
+
+    public boolean updateBlue(Double blue) {
+        if (Objects.equals(this.blue, blue)) {
+            return false;
+        }
+        this.blue = blue;
+        return true;
+    }
+
+    public boolean updateOpacity(Double opacity) {
+        if (Objects.equals(this.opacity, opacity)) {
+            return false;
+        }
+        this.opacity = opacity;
+        return true;
+    }
 }

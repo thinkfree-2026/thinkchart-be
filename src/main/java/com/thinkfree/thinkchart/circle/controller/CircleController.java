@@ -60,7 +60,8 @@ public class CircleController {
 
     @Operation(summary = "원 옵션 변경 (HTTP)", description = "선택된 원의 사용여부/크기/색상을 변경한다.")
     @PatchMapping("/canvas/circles/{id}")
-    public void updateCircle(@PathVariable String id, @RequestBody UpdateCircleRequest request) {
-        // 실제 로직은 구현하지 않음 (문서 노출용)
+    public ApiResponse<CircleResponse> updateCircle(@PathVariable String id, @RequestBody @Valid UpdateCircleRequest request) {
+        CircleResponse response = circleService.updateCircle(id, request);
+        return ApiResponse.of(ApiResponseCode.CIRCLE_COLOR_UPDATED, response);
     }
 }

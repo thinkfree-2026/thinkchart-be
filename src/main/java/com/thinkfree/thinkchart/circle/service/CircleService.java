@@ -3,6 +3,7 @@ package com.thinkfree.thinkchart.circle.service;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
+import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
 import com.thinkfree.thinkchart.common.dto.WsAction;
 import com.thinkfree.thinkchart.common.dto.WsMessage;
@@ -12,6 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -51,5 +53,47 @@ public class CircleService {
                 .toList();
 
         messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CIRCLE_DELETED, responses));
+    }
+
+    public CircleResponse updateCircle(String id, UpdateCircleRequest request) {
+        Circle circle = circleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("원을 찾을 수 없습니다."));
+        boolean changed = false;
+
+        if (request.getX() != null && circle.updateX(request.getX())) {
+            changed = true;
+        }
+
+        if (request.getY() != null && circle.updateY(request.getY())) {
+            changed = true;
+        }
+
+        if (request.getDiameter() != null && circle.updateDiameter(request.getDiameter())) {
+            changed = true;
+        }
+
+        if (request.getRed() != null && circle.updateRed(request.getRed())) {
+            changed = true;
+        }
+
+        if (request.getGreen() != null && circle.updateGreen(request.getGreen())) {
+            changed = true;
+        }
+
+        if (request.getBlue() != null && circle.updateBlue(request.getBlue())) {
+            changed = true;
+        }
+
+        if (request.getOpacity() != null && circle.updateOpacity(request.getOpacity())) {
+            changed = true;
+        }
+
+        if (!changed) {
+            return CircleResponse.from(circle);
+        }
+
+        Circle savedCircle = circleRepository.save(circle);
+        CircleResponse response = CircleResponse.from(savedCircle);
+        messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CIRCLE_UPDATED, response));
+        return response;
     }
 }
