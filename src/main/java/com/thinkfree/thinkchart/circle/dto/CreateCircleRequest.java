@@ -1,7 +1,9 @@
 package com.thinkfree.thinkchart.circle.dto;
 
+import com.thinkfree.thinkchart.circle.domain.Circle;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,19 +14,24 @@ import lombok.NoArgsConstructor;
 public class CreateCircleRequest {
 
     @Schema(description = "X좌표", example = "0.8")
-    @NotBlank
-    private Double centerX;
+    @NotNull
+    private Double x;
 
     @Schema(description = "Y좌표", example = "-0.2")
-    @NotBlank
-    private Double centerY;
+    @NotNull
+    private Double y;
 
-    @Schema(description = "반지름", example = "17")
-    @NotBlank
-    private Double radius;
+    @Schema(description = "지름", example = "17.5")
+    @NotNull
+    @Positive
+    private Double diameter;
 
-    @Schema(description = "색상", example = "#00FF00")
-    @NotBlank
-    private String color;
 
+    public Circle toEntity() {
+        return Circle.builder()
+                .x(this.x)
+                .y(this.y)
+                .diameter(this.diameter)
+                .build();
+    }
 }
