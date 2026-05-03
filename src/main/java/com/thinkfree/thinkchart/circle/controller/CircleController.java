@@ -31,7 +31,7 @@ public class CircleController {
     public ResponseEntity<ApiResponse<CircleResponse>> createCircle(@RequestBody @Valid CreateCircleRequest request) {
         CircleResponse circle = circleService.createCircle(request);
         return ResponseEntity
-                .created(URI.create("api/v1/canvas/circles/" + circle.getId()))
+                .created(URI.create("/api/v1/canvas/circles/" + circle.getId()))
                 .body(ApiResponse.of(ApiResponseCode.CIRCLE_CREATED, circle));
     }
 
