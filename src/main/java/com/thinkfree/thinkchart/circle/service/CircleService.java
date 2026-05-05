@@ -7,6 +7,8 @@ import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
 import com.thinkfree.thinkchart.common.dto.WsAction;
 import com.thinkfree.thinkchart.common.dto.WsMessage;
+import com.thinkfree.thinkchart.common.exception.ErrorCode;
+import com.thinkfree.thinkchart.common.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -38,9 +40,9 @@ public class CircleService {
     }
 
     public CircleResponse getCircle(String id) {
-        Circle circle = circleRepository.findById(id).get();
+        Circle circle = circleRepository.findById(id).orElseThrow(
+                () -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND));
         CircleResponse response = CircleResponse.from(circle);
-        log.info(circle.toString());
         return response;
     }
 
@@ -56,7 +58,7 @@ public class CircleService {
     }
 
     public CircleResponse updateCircle(String id, UpdateCircleRequest request) {
-        Circle circle = circleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("원을 찾을 수 없습니다."));
+        Circle circle = circleRepository.findById(id).orElseThrow(() -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND));
         boolean changed = false;
 
         if (request.getX() != null && circle.updateX(request.getX())) {
