@@ -1,5 +1,7 @@
 package com.thinkfree.thinkchart.circle.domain;
 
+import com.thinkfree.thinkchart.common.exception.ErrorCode;
+import com.thinkfree.thinkchart.common.exception.GlobalException;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -33,6 +35,18 @@ public class Circle {
 
     @CreatedDate
     private Long createdAt;
+
+    public void updateChartId(String chartId) {
+        if (isUsedForChart()) {
+            throw new GlobalException(ErrorCode.ALREADY_USED_CIRCLE);
+        }
+
+        this.chartId = chartId;
+    }
+
+    public boolean isUsedForChart() {
+        return this.chartId != null;
+    }
 
     public boolean updateX(Double x) {
         if (Objects.equals(this.x, x)) {
