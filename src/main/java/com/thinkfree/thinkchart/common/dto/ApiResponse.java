@@ -16,23 +16,24 @@ import java.time.LocalDateTime;
 public class ApiResponse<T> {
 
     private final boolean success;
+    private final String code;
     private final String message;
     private final T data;
     private final LocalDateTime timestamp;
 
     public static <T> ApiResponse<T> success(ApiResponseCode apiResponseCode, T data) {
-        return new ApiResponse<>(true, apiResponseCode.getMessage(), data, LocalDateTime.now());
+        return new ApiResponse<>(true, apiResponseCode.getCode(), apiResponseCode.getMessage(), data, LocalDateTime.now());
     }
 
     public static <T> ApiResponse<T> success(ApiResponseCode apiResponseCode) {
-        return new ApiResponse<>(true, apiResponseCode.getMessage(), null, LocalDateTime.now());
+        return new ApiResponse<>(true, apiResponseCode.getCode(), apiResponseCode.getMessage(), null, LocalDateTime.now());
     }
 
     public static <T> ApiResponse<T> fail(ErrorCode errorCode, T data) {
-        return new ApiResponse<>(false, errorCode.getMessage(), data, LocalDateTime.now());
+        return new ApiResponse<>(false, errorCode.getCode(), errorCode.getMessage(), data, LocalDateTime.now());
     }
 
     public static <T> ApiResponse<T> fail(ErrorCode errorCode) {
-        return new ApiResponse<>(false, errorCode.getMessage(), null, LocalDateTime.now());
+        return new ApiResponse<>(false, errorCode.getCode(), errorCode.getMessage(), null, LocalDateTime.now());
     }
 }
