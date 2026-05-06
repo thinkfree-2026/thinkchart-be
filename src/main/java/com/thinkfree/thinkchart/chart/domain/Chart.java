@@ -17,13 +17,13 @@ public class Chart {
 
     @Id
     private String id;
+    private List<String> circleIds;
     @Builder.Default
     private String name = "차트1";
     @Builder.Default
     private String xAxisName = "X축";
     @Builder.Default
     private String yAxisName = "Y축";
-    private List<Circle> circles;
     @CreatedDate
     private Long createdAt;
 }

@@ -15,7 +15,7 @@ public class ChartResponse {
     private String name;
     private String xAxisName;
     private String yAxisName;
-    private List<Circle> circles;
+    private List<String> circleIds;
     private Long createdAt;
 
     public static ChartResponse from(Chart chart) {
@@ -24,7 +24,7 @@ public class ChartResponse {
                 chart.getName(),
                 chart.getXAxisName(),
                 chart.getYAxisName(),
-                chart.getCircles(),
+                chart.getCircleIds(),
                 chart.getCreatedAt()
         );
     }
