@@ -2,6 +2,7 @@ package com.thinkfree.thinkchart.chart.domain;
 
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,4 +24,6 @@ public class Chart {
     @Builder.Default
     private String yAxisName = "Y축";
     private List<Circle> circles;
+    @CreatedDate
+    private Long createdAt;
 }
