@@ -16,10 +16,10 @@ public class Circle {
 
     @Id
     private String id;
+    private String chartId;
 
     private double x;
     private double y;
-
     private double diameter;
 
     @Builder.Default
