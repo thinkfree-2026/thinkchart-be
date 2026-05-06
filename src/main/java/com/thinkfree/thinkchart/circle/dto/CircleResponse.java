@@ -8,6 +8,7 @@ import lombok.*;
 public class CircleResponse {
 
     private String id;
+    private String chartId;
 
     private double x;
     private double y;
@@ -23,6 +24,7 @@ public class CircleResponse {
     public static CircleResponse from(Circle circle) {
         return new CircleResponse(
                 circle.getId(),
+                circle.getChartId(),
                 circle.getX(),
                 circle.getY(),
                 circle.getDiameter(),
