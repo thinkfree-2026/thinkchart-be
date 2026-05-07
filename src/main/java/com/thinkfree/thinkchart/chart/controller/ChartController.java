@@ -21,8 +21,8 @@ public class ChartController {
 
     @Operation(summary = "차트 생성 (HTTP)", description = "선택된 원으로 차트를 생성한다.")
     @PostMapping("/canvas/charts")
-    public ResponseEntity<ApiResponse<CreateChartResponse>> createChart(@RequestBody CreateChartRequest request) {
-        CreateChartResponse response = chartService.createChart(request);
+    public ResponseEntity<ApiResponse<ChartResponse>> createChart(@RequestBody CreateChartRequest request) {
+        ChartResponse response = chartService.createChart(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.success(ApiResponseCode.CHART_CREATED, response));
@@ -30,8 +30,8 @@ public class ChartController {
 
     @Operation(summary = "차트 조회 (HTTP)", description = "차트 리스트에서 선택한 차트를 조회한다.")
     @GetMapping("/canvas/charts/{id}")
-    public ResponseEntity<ApiResponse<ChartResponse>> getChart(@PathVariable String id) {
-        ChartResponse response = chartService.getChart(id);
+    public ResponseEntity<ApiResponse<ChartDetailResponse>> getChart(@PathVariable String id) {
+        ChartDetailResponse response = chartService.getChart(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success(ApiResponseCode.CHART_SUCCESS, response));

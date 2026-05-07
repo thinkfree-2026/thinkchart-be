@@ -1,8 +1,8 @@
 package com.thinkfree.thinkchart.chart.service;
 
 import com.thinkfree.thinkchart.chart.domain.Chart;
+import com.thinkfree.thinkchart.chart.dto.ChartDetailResponse;
 import com.thinkfree.thinkchart.chart.dto.ChartResponse;
-import com.thinkfree.thinkchart.chart.dto.CreateChartResponse;
 import com.thinkfree.thinkchart.chart.dto.CreateChartRequest;
 import com.thinkfree.thinkchart.chart.repository.ChartRepository;
 import com.thinkfree.thinkchart.circle.domain.Circle;
@@ -27,7 +27,7 @@ public class ChartService {
     private final SimpMessagingTemplate messagingTemplate;
 
     @Transactional
-    public CreateChartResponse createChart(CreateChartRequest request) {
+    public ChartResponse createChart(CreateChartRequest request) {
         List<String> circleIds = request.getCircleIds();
         List<Circle> circles = circleRepository.findAllById(circleIds);
 
@@ -43,12 +43,12 @@ public class ChartService {
         circles.forEach(circle -> circle.updateChartId(chart.getId()));
         circleRepository.saveAll(circles);
 
-        CreateChartResponse response = CreateChartResponse.from(chart);
+        ChartResponse response = ChartResponse.from(chart);
         messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CHART_CREATED, response));
         return response;
     }
 
-    public ChartResponse getChart(String id) {
+    public ChartDetailResponse getChart(String id) {
         Chart chart = chartRepository.findById(id).orElseThrow(
                 () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
         );
@@ -59,7 +59,7 @@ public class ChartService {
             throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
         }
 
-        return ChartResponse.from(chart, circles);
+        return ChartDetailResponse.from(chart, circles);
     }
 
 }
