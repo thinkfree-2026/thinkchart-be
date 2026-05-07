@@ -45,8 +45,9 @@ public class ChartController {
 
     @Operation(summary = "차트 삭제 (HTTP)", description = "선택된 차트를 삭제한다.")
     @DeleteMapping("/canvas/charts/{id}")
-    public void deleteChart(@PathVariable String id) {
-        // 실제 로직은 구현하지 않음 (문서 노출용)
+    public ResponseEntity<ApiResponse<Void>> deleteChart(@PathVariable String id) {
+        chartService.deleteChart(id);
+        return ResponseEntity.ok(ApiResponse.success(ApiResponseCode.CHART_DELETED));
     }
 
     @Operation(summary = "차트 막대 옵션 변경 (HTTP)", description = "선택된 막대의 값/이름/색상을 변경한다.")

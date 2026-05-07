@@ -62,4 +62,13 @@ public class ChartService {
         return ChartDetailResponse.from(chart, circles);
     }
 
+    @Transactional
+    public void deleteChart(String id) {
+        Chart chart = chartRepository.findById(id).orElseThrow(
+                () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
+        );
+
+        circleRepository.deleteByChartId(id);
+        chartRepository.delete(chart);
+    }
 }

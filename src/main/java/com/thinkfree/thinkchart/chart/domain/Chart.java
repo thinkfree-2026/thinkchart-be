@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,7 +18,8 @@ public class Chart {
 
     @Id
     private String id;
-    private List<String> circleIds;
+    @Builder.Default
+    private List<String> circleIds = new ArrayList<>();
     @Builder.Default
     private String name = "THINK-CHART";
     @Builder.Default
