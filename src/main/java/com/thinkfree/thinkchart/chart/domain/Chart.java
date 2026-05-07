@@ -19,7 +19,7 @@ public class Chart {
     private String id;
     private List<String> circleIds;
     @Builder.Default
-    private String name = "차트1";
+    private String name = "THINK-CHART";
     @Builder.Default
     private String xAxisName = "X축";
     @Builder.Default

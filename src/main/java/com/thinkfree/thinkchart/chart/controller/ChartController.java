@@ -1,10 +1,6 @@
 package com.thinkfree.thinkchart.chart.controller;
 
-import com.thinkfree.thinkchart.chart.domain.Chart;
-import com.thinkfree.thinkchart.chart.dto.ChartResponse;
-import com.thinkfree.thinkchart.chart.dto.CreateChartRequest;
-import com.thinkfree.thinkchart.chart.dto.UpdateBarRequest;
-import com.thinkfree.thinkchart.chart.dto.UpdateChartRequest;
+import com.thinkfree.thinkchart.chart.dto.*;
 import com.thinkfree.thinkchart.chart.service.ChartService;
 import com.thinkfree.thinkchart.common.dto.ApiResponse;
 import com.thinkfree.thinkchart.common.dto.ApiResponseCode;
@@ -14,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @Tag(name = "차트 API", description = "차트 생성/변경/삭제, 막대 옵션 변경")
 @RestController
@@ -27,11 +21,20 @@ public class ChartController {
 
     @Operation(summary = "차트 생성 (HTTP)", description = "선택된 원으로 차트를 생성한다.")
     @PostMapping("/canvas/charts")
-    public ResponseEntity<ApiResponse<?>> createChart(@RequestBody CreateChartRequest request) {
-        ChartResponse response = chartService.createChart(request);
+    public ResponseEntity<ApiResponse<CreateChartResponse>> createChart(@RequestBody CreateChartRequest request) {
+        CreateChartResponse response = chartService.createChart(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.success(ApiResponseCode.CHART_CREATED, response));
+    }
+
+    @Operation(summary = "차트 조회 (HTTP)", description = "차트 리스트에서 선택한 차트를 조회한다.")
+    @GetMapping("/canvas/charts/{id}")
+    public ResponseEntity<ApiResponse<ChartResponse>> getChart(@PathVariable String id) {
+        ChartResponse response = chartService.getChart(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(ApiResponseCode.CHART_SUCCESS, response));
     }
 
     @Operation(summary = "차트 옵션 변경 (HTTP)", description = "선택된 차트의 이름/x축/y축을 변경한다.")
