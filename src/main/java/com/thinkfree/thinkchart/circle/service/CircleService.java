@@ -69,23 +69,11 @@ public class CircleService {
             changed = true;
         }
 
-        if (request.getDiameter() != null && circle.updateDiameter(request.getDiameter())) {
+        if (request.getRadius() != null && circle.updateRadius(request.getRadius())) {
             changed = true;
         }
 
-        if (request.getRed() != null && circle.updateRed(request.getRed())) {
-            changed = true;
-        }
-
-        if (request.getGreen() != null && circle.updateGreen(request.getGreen())) {
-            changed = true;
-        }
-
-        if (request.getBlue() != null && circle.updateBlue(request.getBlue())) {
-            changed = true;
-        }
-
-        if (request.getOpacity() != null && circle.updateOpacity(request.getOpacity())) {
+        if (request.getColor() != null && circle.updateColor(request.getColor())) {
             changed = true;
         }
 

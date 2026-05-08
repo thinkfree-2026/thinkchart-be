@@ -1,7 +1,7 @@
 package com.thinkfree.thinkchart.circle.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,20 +20,14 @@ public class UpdateCircleRequest {
     @Schema(description = "Y좌표", example = "5.8")
     private Double y;
 
-    @Schema(description = "지름", example = "9.5")
+    @Schema(description = "반지름", example = "9.5")
     @Positive
-    private Double diameter;
+    private Double radius;
 
-    @Schema(description = "Red 컬러", example = "0.111")
-    private Double red;
-
-    @Schema(description = "Green 컬러", example = "0.222")
-    private Double green;
-
-    @Schema(description = "Blue 컬러", example = "0.333")
-    private Double blue;
-
-    @Schema(description = "투명도", example = "0.9")
-    @Positive
-    private Double opacity;
+    @Schema(description = "색상", example = "#000000")
+    @Pattern(
+            regexp = "^#[0-9a-fA-F]{6}$",
+            message = "올바른 색상 코드 형식이 아닙니다. (예: #000000)"
+    )
+    private String color;
 }
