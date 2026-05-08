@@ -72,6 +72,8 @@ public class ChartService {
 
         circleRepository.deleteByChartId(id);
         chartRepository.delete(chart);
+
+        messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CHART_DELETED, ChartResponse.from(chart)));
     }
 
     @Transactional
