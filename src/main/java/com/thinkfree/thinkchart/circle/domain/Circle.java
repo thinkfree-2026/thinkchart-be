@@ -19,20 +19,11 @@ public class Circle {
     @Id
     private String id;
     private String chartId;
-
     private double x;
     private double y;
-    private double diameter;
-
+    private double radius;
     @Builder.Default
-    private double red = 0.111;
-    @Builder.Default
-    private double green = 0.222;
-    @Builder.Default
-    private double blue = 0.333;
-    @Builder.Default
-    private double opacity = 0.9;
-
+    private String color = "#00a0ac";
     @CreatedDate
     private Long createdAt;
 
@@ -64,43 +55,19 @@ public class Circle {
         return true;
     }
 
-    public boolean updateDiameter(Double diameter) {
-        if (Objects.equals(this.diameter, diameter)) {
+    public boolean updateRadius(Double radius) {
+        if (Objects.equals(this.radius, radius)) {
             return false;
         }
-        this.diameter = diameter;
+        this.radius = radius;
         return true;
     }
 
-    public boolean updateRed(Double red) {
-        if (Objects.equals(this.red, red)) {
+    public boolean updateColor(String color) {
+        if (Objects.equals(this.color, color)) {
             return false;
         }
-        this.red = red;
-        return true;
-    }
-
-    public boolean updateGreen(Double green) {
-        if (Objects.equals(this.green, green)) {
-            return false;
-        }
-        this.green = green;
-        return true;
-    }
-
-    public boolean updateBlue(Double blue) {
-        if (Objects.equals(this.blue, blue)) {
-            return false;
-        }
-        this.blue = blue;
-        return true;
-    }
-
-    public boolean updateOpacity(Double opacity) {
-        if (Objects.equals(this.opacity, opacity)) {
-            return false;
-        }
-        this.opacity = opacity;
+        this.color = color;
         return true;
     }
 }

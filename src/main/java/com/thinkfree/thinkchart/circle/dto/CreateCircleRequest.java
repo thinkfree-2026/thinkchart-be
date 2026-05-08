@@ -21,17 +21,17 @@ public class CreateCircleRequest {
     @NotNull
     private Double y;
 
-    @Schema(description = "지름", example = "17.5")
+    @Schema(description = "반지름", example = "17.5")
     @NotNull
     @Positive
-    private Double diameter;
+    private Double radius;
 
 
     public Circle toEntity() {
         return Circle.builder()
                 .x(this.x)
                 .y(this.y)
-                .diameter(this.diameter)
+                .radius(this.radius)
                 .build();
     }
 }
