@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
-@Tag(name = "원 API", description = "원 생성/변경/삭제")
+@Tag(name = "2. 원 API", description = "원 생성/조회/변경/삭제")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1")

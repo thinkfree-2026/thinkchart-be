@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "차트 API", description = "차트 생성/변경/삭제, 막대 옵션 변경")
+@Tag(name = "3. 차트 API", description = "차트 생성/조회/변경/삭제, 막대 옵션 변경")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")

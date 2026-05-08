@@ -4,3 +4,10 @@ spring:
 
   profiles:
     include: secret
+
+springdoc:
+  swagger-ui:
+    # 태그 정렬 기준: 'alpha'는 알파벳순, 기본값은 컨트롤러 소스 코드 탐색 순서
+    tags-sorter: alpha
+    # 작업(Endpoint) 정렬 기준: 'alpha', 'method' 등
+    operations-sorter: method
