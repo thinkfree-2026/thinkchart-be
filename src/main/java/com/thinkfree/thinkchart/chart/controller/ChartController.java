@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "차트 API", description = "차트 생성/변경/삭제, 막대 옵션 변경")
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +37,14 @@ public class ChartController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success(ApiResponseCode.CHART_SUCCESS, response));
+    }
+
+    @Operation(summary = "차트 목록 조회 (HTTP)", description = "차트 목록을 조회한다.")
+    @GetMapping("/canvas/charts")
+    public ResponseEntity<ApiResponse<List<ChartResponse>>> getChartList() {
+        List<ChartResponse> response = chartService.getChartList();
+        return ResponseEntity
+                .ok(ApiResponse.success(ApiResponseCode.CHART_SUCCESS, response));
     }
 
     @Operation(summary = "차트 옵션 변경 (HTTP)", description = "선택된 차트의 이름/x축/y축을 변경한다.")

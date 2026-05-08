@@ -7,6 +7,7 @@ import com.thinkfree.thinkchart.chart.dto.CreateChartRequest;
 import com.thinkfree.thinkchart.chart.dto.UpdateChartRequest;
 import com.thinkfree.thinkchart.chart.repository.ChartRepository;
 import com.thinkfree.thinkchart.circle.domain.Circle;
+import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
 import com.thinkfree.thinkchart.common.dto.WsAction;
 import com.thinkfree.thinkchart.common.dto.WsMessage;
@@ -61,6 +62,13 @@ public class ChartService {
         }
 
         return ChartDetailResponse.from(chart, circles);
+    }
+
+    public List<ChartResponse> getChartList() {
+        List<Chart> charts = chartRepository.findAll();
+        return charts.stream()
+                .map(chart -> ChartResponse.from(chart))
+                .toList();
     }
 
     @Transactional
