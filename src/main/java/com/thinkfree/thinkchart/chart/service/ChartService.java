@@ -7,7 +7,6 @@ import com.thinkfree.thinkchart.chart.dto.CreateChartRequest;
 import com.thinkfree.thinkchart.chart.dto.UpdateChartRequest;
 import com.thinkfree.thinkchart.chart.repository.ChartRepository;
 import com.thinkfree.thinkchart.circle.domain.Circle;
-import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
 import com.thinkfree.thinkchart.common.dto.WsAction;
 import com.thinkfree.thinkchart.common.dto.WsMessage;
@@ -50,7 +49,7 @@ public class ChartService {
         return response;
     }
 
-    public ChartDetailResponse getChart(String id) {
+    public ChartDetailResponse getChartDetail(String id) {
         Chart chart = chartRepository.findById(id).orElseThrow(
                 () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
         );

@@ -31,7 +31,7 @@ public class ChartController {
     @Operation(summary = "차트 조회 (HTTP)", description = "차트 리스트에서 선택한 차트를 조회한다.")
     @GetMapping("/canvas/charts/{id}")
     public ResponseEntity<ApiResponse<ChartDetailResponse>> getChart(@PathVariable String id) {
-        ChartDetailResponse response = chartService.getChart(id);
+        ChartDetailResponse response = chartService.getChartDetail(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success(ApiResponseCode.CHART_SUCCESS, response));
