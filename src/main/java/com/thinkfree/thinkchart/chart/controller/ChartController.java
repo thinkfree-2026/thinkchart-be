@@ -39,8 +39,11 @@ public class ChartController {
 
     @Operation(summary = "차트 옵션 변경 (HTTP)", description = "선택된 차트의 이름/x축/y축을 변경한다.")
     @PatchMapping("/canvas/charts/{id}")
-    public void updateChart(@PathVariable String id, @RequestBody UpdateChartRequest request) {
-        // 실제 로직은 구현하지 않음 (문서 노출용)
+    public ResponseEntity<ApiResponse<ChartResponse>> updateChart(@PathVariable String id, @RequestBody UpdateChartRequest request) {
+        ChartResponse response = chartService.updateChart(id, request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(ApiResponseCode.CHART_UPDATED, response));
     }
 
     @Operation(summary = "차트 삭제 (HTTP)", description = "선택된 차트를 삭제한다.")

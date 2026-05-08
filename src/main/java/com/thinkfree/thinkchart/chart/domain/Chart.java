@@ -1,6 +1,5 @@
 package com.thinkfree.thinkchart.chart.domain;
 
-import com.thinkfree.thinkchart.circle.domain.Circle;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -8,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,9 +23,33 @@ public class Chart {
     @Builder.Default
     private String name = "THINK-CHART";
     @Builder.Default
-    private String xAxisName = "X축";
+    private String xAxis = "X축";
     @Builder.Default
-    private String yAxisName = "Y축";
+    private String yAxis = "Y축";
     @CreatedDate
     private Long createdAt;
+
+    public boolean updateName(String name) {
+        if (Objects.equals(this.name, name)) {
+            return false;
+        }
+        this.name = name;
+        return true;
+    }
+
+    public boolean updateXAxis(String xAxis) {
+        if (Objects.equals(this.xAxis, xAxis)) {
+            return false;
+        }
+        this.xAxis = xAxis;
+        return true;
+    }
+
+    public boolean updateYAxis(String yAxis) {
+        if (Objects.equals(this.yAxis, yAxis)) {
+            return false;
+        }
+        this.yAxis = yAxis;
+        return true;
+    }
 }

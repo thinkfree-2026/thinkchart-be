@@ -20,8 +20,8 @@ public class ChartResponse {
         return new ChartResponse(
                 chart.getId(),
                 chart.getName(),
-                chart.getXAxisName(),
-                chart.getYAxisName(),
+                chart.getXAxis(),
+                chart.getYAxis(),
                 chart.getCircleIds(),
                 chart.getCreatedAt()
         );

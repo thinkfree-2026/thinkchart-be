@@ -4,8 +4,10 @@ import com.thinkfree.thinkchart.chart.domain.Chart;
 import com.thinkfree.thinkchart.chart.dto.ChartDetailResponse;
 import com.thinkfree.thinkchart.chart.dto.ChartResponse;
 import com.thinkfree.thinkchart.chart.dto.CreateChartRequest;
+import com.thinkfree.thinkchart.chart.dto.UpdateChartRequest;
 import com.thinkfree.thinkchart.chart.repository.ChartRepository;
 import com.thinkfree.thinkchart.circle.domain.Circle;
+import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
 import com.thinkfree.thinkchart.common.dto.WsAction;
 import com.thinkfree.thinkchart.common.dto.WsMessage;
@@ -70,5 +72,35 @@ public class ChartService {
 
         circleRepository.deleteByChartId(id);
         chartRepository.delete(chart);
+    }
+
+    @Transactional
+    public ChartResponse updateChart(String id, UpdateChartRequest request) {
+        Chart chart = chartRepository.findById(id).orElseThrow(
+                () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
+        );
+
+        boolean changed = false;
+
+        if (request.getName() != null && chart.updateName(request.getName())) {
+            changed = true;
+        }
+
+        if (request.getXAxis() != null && chart.updateXAxis(request.getXAxis())) {
+            changed = true;
+        }
+
+        if (request.getYAxis() != null && chart.updateYAxis(request.getYAxis())) {
+            changed = true;
+        }
+
+        if (!changed) {
+            return ChartResponse.from(chart);
+        }
+
+        Chart savedChart = chartRepository.save(chart);
+        ChartResponse response = ChartResponse.from(savedChart);
+        messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CHART_UPDATED, response));
+        return response;
     }
 }
