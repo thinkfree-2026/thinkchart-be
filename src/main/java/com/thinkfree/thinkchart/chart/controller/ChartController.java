@@ -6,6 +6,7 @@ import com.thinkfree.thinkchart.common.dto.ApiResponse;
 import com.thinkfree.thinkchart.common.dto.ApiResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ChartController {
 
     @Operation(summary = "차트 생성 (HTTP)", description = "선택된 원으로 차트를 생성한다.")
     @PostMapping("/canvas/charts")
-    public ResponseEntity<ApiResponse<ChartResponse>> createChart(@RequestBody CreateChartRequest request) {
+    public ResponseEntity<ApiResponse<ChartResponse>> createChart(@RequestBody @Valid CreateChartRequest request) {
         ChartResponse response = chartService.createChart(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
