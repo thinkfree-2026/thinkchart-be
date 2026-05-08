@@ -24,7 +24,7 @@ public enum ApiResponseCode {
     CHART_CREATED("CHART_CREATED", "차트가 생성되었습니다."),
     CHART_SUCCESS("CHART_SUCCESS", "차트가 조회되었습니다."),
     CHART_RESIZED("CHART_RESIZED", "차트 데이터 값이 변경되었습니다."),
-    CHART_COLOR_UPDATED("CHART_COLOR_UPDATED", "차트 색상이 변경되었습니다."),
+    CHART_UPDATED("CHART_UPDATED", "차트가 수정되었습니다."),
     CHART_X_NAME_UPDATED("CHART_X_NAME_UPDATED", "차트 X축 이름이 변경되었습니다."),
     CHART_Y_NAME_UPDATED("CHART_Y_NAME_UPDATED", "차트 Y축 이름이 변경되었습니다."),
     CHART_NAME_UPDATED("CHART_NAME_UPDATED", "차트 이름이 변경되었습니다."),
