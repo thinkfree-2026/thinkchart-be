@@ -1,5 +1,6 @@
 package com.thinkfree.thinkchart.circle.service;
 
+import com.thinkfree.thinkchart.chart.domain.Chart;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -85,5 +87,34 @@ public class CircleService {
         CircleResponse response = CircleResponse.from(savedCircle);
         messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CIRCLE_UPDATED, response));
         return response;
+    }
+
+    @Transactional
+    public void assignChartId(List<String> circleIds, String chartId) {
+        List<Circle> circles = circleRepository.findAllById(circleIds);
+
+        if (circles.size() != circleIds.size()) {
+            throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
+        }
+
+        if (circles.stream().anyMatch(circle -> circle.isUsedForChart())) {
+            throw new GlobalException(ErrorCode.ALREADY_USED_CIRCLE);
+        }
+
+        circles.forEach(circle -> circle.updateChartId(chartId));
+        circleRepository.saveAll(circles);
+    }
+
+    public List<Circle> findAllById(List<String> circleIds) {
+        List<Circle> circles = circleRepository.findAllById(circleIds);
+        if (circles.size() != circleIds.size()) {
+            throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
+        }
+        return circles;
+    }
+
+    @Transactional
+    public void deleteByChartId(String id) {
+        circleRepository.deleteByChartId(id);
     }
 }
