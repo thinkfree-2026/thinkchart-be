@@ -1,6 +1,7 @@
 package com.thinkfree.thinkchart.common.controller;
 
 import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
+import com.thinkfree.thinkchart.cursor.dto.CursorMovePayload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class WebSocketDocsController {
 
     @Operation(summary = "실시간 커서 공유", description = "Destination: /app/canvas/cursor <br> Subscribe: /topic/canvas")
     @RequestMapping(path = "/docs/app/canvas/cursor", method = RequestMethod.OPTIONS)
-    public void cursorMoveDocs() {
+    public void cursorMoveDocs(CursorMovePayload payload) {
         // 실제 로직은 구현하지 않음 (문서 노출용)
     }
 
