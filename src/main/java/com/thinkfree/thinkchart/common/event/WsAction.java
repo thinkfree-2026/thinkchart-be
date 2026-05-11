@@ -1,4 +1,4 @@
-package com.thinkfree.thinkchart.common.dto;
+package com.thinkfree.thinkchart.common.event;
 
 public enum WsAction {
     CURSOR_ENTER,
