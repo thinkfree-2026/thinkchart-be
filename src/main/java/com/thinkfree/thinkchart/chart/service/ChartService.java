@@ -8,11 +8,13 @@ import com.thinkfree.thinkchart.chart.dto.UpdateChartRequest;
 import com.thinkfree.thinkchart.chart.repository.ChartRepository;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.service.CircleService;
-import com.thinkfree.thinkchart.common.dto.WsAction;
-import com.thinkfree.thinkchart.common.dto.WsMessage;
+import com.thinkfree.thinkchart.common.event.StompBroadcastEvent;
+import com.thinkfree.thinkchart.common.event.WsAction;
+import com.thinkfree.thinkchart.common.event.WsMessage;
 import com.thinkfree.thinkchart.common.exception.ErrorCode;
 import com.thinkfree.thinkchart.common.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class ChartService {
 
     private final CircleService circleService;
     private final ChartRepository chartRepository;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public ChartResponse createChart(CreateChartRequest request) {
@@ -33,8 +35,14 @@ public class ChartService {
         circleService.assignChartId(request.getCircleIds(), chart.getId());
 
         ChartResponse response = ChartResponse.from(chart);
-        messagingTemplate.convertAndSend("/topic/canvas",
-                new WsMessage<>(WsAction.CHART_CREATED, response));
+
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CHART_CREATED, response)
+                )
+        );
+
         return response;
     }
 
@@ -48,6 +56,7 @@ public class ChartService {
 
     public List<ChartResponse> getChartList() {
         List<Chart> charts = chartRepository.findAll();
+
         return charts.stream()
                 .map(chart -> ChartResponse.from(chart))
                 .toList();
@@ -62,8 +71,12 @@ public class ChartService {
         circleService.deleteByChartId(id);
         chartRepository.delete(chart);
 
-        messagingTemplate.convertAndSend("/topic/canvas",
-                new WsMessage<>(WsAction.CHART_DELETED, ChartResponse.from(chart)));
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CHART_DELETED, ChartResponse.from(chart))
+                )
+        );
     }
 
     @Transactional
@@ -92,8 +105,14 @@ public class ChartService {
 
         Chart savedChart = chartRepository.save(chart);
         ChartResponse response = ChartResponse.from(savedChart);
-        messagingTemplate.convertAndSend("/topic/canvas",
-                new WsMessage<>(WsAction.CHART_UPDATED, response));
+
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CHART_UPDATED, response)
+                )
+        );
+
         return response;
     }
 }

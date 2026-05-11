@@ -1,23 +1,23 @@
 package com.thinkfree.thinkchart.circle.service;
 
-import com.thinkfree.thinkchart.chart.domain.Chart;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
 import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
-import com.thinkfree.thinkchart.common.dto.WsAction;
-import com.thinkfree.thinkchart.common.dto.WsMessage;
+import com.thinkfree.thinkchart.common.event.StompBroadcastEvent;
+import com.thinkfree.thinkchart.common.event.WsAction;
+import com.thinkfree.thinkchart.common.event.WsMessage;
 import com.thinkfree.thinkchart.common.exception.ErrorCode;
 import com.thinkfree.thinkchart.common.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +25,20 @@ import java.util.Objects;
 public class CircleService {
 
     private final CircleRepository circleRepository;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final ApplicationEventPublisher eventPublisher;
 
+    @Transactional
     public CircleResponse createCircle(CreateCircleRequest request) {
         Circle circle = circleRepository.save(request.toEntity());
         CircleResponse response = CircleResponse.from(circle);
-        messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CIRCLE_CREATED, response));
+
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CIRCLE_CREATED, response)
+                )
+        );
+
         return response;
     }
 
@@ -48,6 +56,7 @@ public class CircleService {
         return response;
     }
 
+    @Transactional
     public void deleteCircle(List<String> ids) {
         List<Circle> circles = circleRepository.findAllById(ids);
         circleRepository.deleteAllById(ids);
@@ -56,9 +65,15 @@ public class CircleService {
                 .map(circle -> CircleResponse.from(circle))
                 .toList();
 
-        messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CIRCLE_DELETED, responses));
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CIRCLE_DELETED, responses)
+                )
+        );
     }
 
+    @Transactional
     public CircleResponse updateCircle(String id, UpdateCircleRequest request) {
         Circle circle = circleRepository.findById(id).orElseThrow(() -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND));
         boolean changed = false;
@@ -85,7 +100,13 @@ public class CircleService {
 
         Circle savedCircle = circleRepository.save(circle);
         CircleResponse response = CircleResponse.from(savedCircle);
-        messagingTemplate.convertAndSend("/topic/canvas", new WsMessage<>(WsAction.CIRCLE_UPDATED, response));
+
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CIRCLE_UPDATED, response)
+                )
+        );
         return response;
     }
 
