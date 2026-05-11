@@ -91,11 +91,11 @@ public class ChartService {
             changed = true;
         }
 
-        if (request.getXAxis() != null && chart.updateXAxis(request.getXAxis())) {
+        if (request.getxAxis() != null && chart.updateXAxis(request.getxAxis())) {
             changed = true;
         }
 
-        if (request.getYAxis() != null && chart.updateYAxis(request.getYAxis())) {
+        if (request.getyAxis() != null && chart.updateYAxis(request.getyAxis())) {
             changed = true;
         }
 
