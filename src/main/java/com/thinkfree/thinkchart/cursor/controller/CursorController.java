@@ -1,7 +1,7 @@
 package com.thinkfree.thinkchart.cursor.controller;
 
-import com.thinkfree.thinkchart.common.dto.WsAction;
-import com.thinkfree.thinkchart.common.dto.WsMessage;
+import com.thinkfree.thinkchart.common.event.WsAction;
+import com.thinkfree.thinkchart.common.event.WsMessage;
 import com.thinkfree.thinkchart.cursor.dto.CursorMovePayload;
 import jakarta.validation.Valid;
 import org.springframework.messaging.handler.annotation.MessageMapping;

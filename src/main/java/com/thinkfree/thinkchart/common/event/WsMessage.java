@@ -1,4 +1,4 @@
-package com.thinkfree.thinkchart.common.dto;
+package com.thinkfree.thinkchart.common.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
