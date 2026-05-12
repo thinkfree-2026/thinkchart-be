@@ -18,6 +18,29 @@ public class WebSocketDocsController {
         // 실제 로직은 구현하지 않음 (문서 노출용)
     }
 
+    @Operation(summary = "웹소켓 액션 목록", description = "    CURSOR_ENTER,\n" +
+            "    CURSOR_MOVE,\n" +
+            "    CURSOR_LEAVE,\n" +
+            "\n" +
+            "    CIRCLE_DRAW_START,\n" +
+            "    CIRCLE_DRAW_UPDATE,\n" +
+            "\n" +
+            "    CIRCLE_CREATED,\n" +
+            "    CIRCLE_UPDATED,\n" +
+            "    CIRCLE_DELETED,\n" +
+            "    CIRCLE_FOCUSED,\n" +
+            "\n" +
+            "    CHART_CREATED,\n" +
+            "    CHART_UPDATED,\n" +
+            "    CHART_DELETED,\n" +
+            "\n" +
+            "    CHART_BAR_UPDATED,\n" +
+            "    CHART_BAR_DELETED")
+    @RequestMapping(path = "", method = RequestMethod.OPTIONS)
+    public void webSocketActionsDocs() {
+        // 실제 로직은 구현하지 않음 (문서 노출용)
+    }
+
     @Operation(summary = "실시간 커서 공유", description = "Destination: /app/canvas/cursor <br> Subscribe: /topic/canvas")
     @RequestMapping(path = "/docs/app/canvas/cursor", method = RequestMethod.OPTIONS)
     public void cursorMoveDocs(CursorMovePayload payload) {
