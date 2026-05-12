@@ -20,9 +20,9 @@ public class UpdateCircleRequest {
     @Schema(description = "Y좌표", example = "5.8")
     private Double y;
 
-    @Schema(description = "반지름", example = "9.5")
+    @Schema(description = "값", example = "95")
     @Positive
-    private Double radius;
+    private Long value;
 
     @Schema(description = "색상", example = "#000000")
     @Pattern(
@@ -30,4 +30,8 @@ public class UpdateCircleRequest {
             message = "올바른 색상 코드 형식이 아닙니다. (예: #000000)"
     )
     private String color;
+
+    @Schema(description = "투명도", example = "0.9")
+    @Positive
+    private Double opacity;
 }

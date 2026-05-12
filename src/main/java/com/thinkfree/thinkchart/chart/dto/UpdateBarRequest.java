@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Schema(description = "차트 바(원) 수정 요청")
 public class UpdateBarRequest {
 
-    @Schema(description = "값", example = "359.5")
+    @Schema(description = "값", example = "359")
     @Positive
-    private Double value;
+    private Long value;
 
     @Schema(description = "색상", example = "#000000")
     @Pattern(
@@ -23,4 +23,7 @@ public class UpdateBarRequest {
     )
     private String color;
 
+    @Schema(description = "투명도", example = "0.7")
+    @Positive
+    private Double opacity;
 }

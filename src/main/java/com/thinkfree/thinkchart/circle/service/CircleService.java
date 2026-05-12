@@ -86,11 +86,15 @@ public class CircleService {
             changed = true;
         }
 
-        if (request.getRadius() != null && circle.updateRadius(request.getRadius())) {
+        if (request.getValue() != null && circle.updateValue(request.getValue())) {
             changed = true;
         }
 
         if (request.getColor() != null && circle.updateColor(request.getColor())) {
+            changed = true;
+        }
+
+        if (request.getOpacity() != null && circle.updateOpacity(request.getOpacity())) {
             changed = true;
         }
 
@@ -140,13 +144,13 @@ public class CircleService {
     }
 
     @Transactional
-    public Circle updateCircleByChart(String circleId, UpdateBarRequest request, double VALUE_RADIUS_RATIO) {
+    public Circle updateCircleByChart(String circleId, UpdateBarRequest request) {
         Circle circle = circleRepository.findById(circleId).orElseThrow(
                 () -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND)
         );
 
         boolean changed = false;
-        if (request.getValue() != null && circle.updateRadius(request.getValue() * VALUE_RADIUS_RATIO)) {
+        if (request.getValue() != null && circle.updateValue(request.getValue())) {
             changed = true;
         }
         if (request.getColor() != null && circle.updateColor(request.getColor())) {
