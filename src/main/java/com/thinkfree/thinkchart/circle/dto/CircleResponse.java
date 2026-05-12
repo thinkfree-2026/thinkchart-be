@@ -9,6 +9,7 @@ public class CircleResponse {
 
     private String id;
     private String chartId;
+    private String name;
     private double x;
     private double y;
     private long value;
@@ -20,6 +21,7 @@ public class CircleResponse {
         return new CircleResponse(
                 circle.getId(),
                 circle.getChartId(),
+                circle.getName(),
                 circle.getX(),
                 circle.getY(),
                 circle.getValue(),
