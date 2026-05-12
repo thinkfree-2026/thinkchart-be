@@ -24,7 +24,7 @@ public class ChartService {
     private final CircleService circleService;
     private final ChartRepository chartRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final double VALUE_RADIUS_RATIO = 3;
+    private final long VALUE_RADIUS_RATIO = 3;
 
     @Transactional
     public ChartResponse createChart(CreateChartRequest request) {
@@ -124,13 +124,13 @@ public class ChartService {
             throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
         }
 
-        Circle updatedCircle = circleService.updateCircleByChart(barId, request, VALUE_RADIUS_RATIO);
+        Circle updatedCircle = circleService.updateCircleByChart(barId, request);
         // TODO: 수정된 circle만 반환할지, 차트에 포함된 circle 전체를 반환할지
 //        List<Circle> circles = circleService.findAllById(circleIds);
 //        ChartDetailResponse response = ChartDetailResponse.from(chart, circles);
 
 
-        BarResponse response = BarResponse.from(chartId, barId, updatedCircle, VALUE_RADIUS_RATIO);
+        BarResponse response = BarResponse.from(chartId, barId, updatedCircle);
 
         eventPublisher.publishEvent(
                 new StompBroadcastEvent(
