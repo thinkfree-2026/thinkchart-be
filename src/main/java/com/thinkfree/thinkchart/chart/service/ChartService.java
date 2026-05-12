@@ -142,4 +142,21 @@ public class ChartService {
         return response;
     }
 
+    @Transactional
+    public void deleteChartBar(String chartId, String barId) {
+        Chart chart = chartRepository.findById(chartId).orElseThrow(
+                () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
+        );
+
+        List<String> circleIds = chart.getCircleIds();
+        if (!circleIds.contains(barId)) {
+            throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
+        }
+
+        if (chart.deleteBar(barId)) {
+            circleService.releaseChart(barId);
+        }
+
+        chartRepository.save(chart);
+    }
 }

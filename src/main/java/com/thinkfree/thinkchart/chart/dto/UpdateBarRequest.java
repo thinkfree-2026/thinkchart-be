@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @Schema(description = "차트 바(원) 수정 요청")
 public class UpdateBarRequest {
 
+    @Schema(description = "데이터명", example = "아메리카노")
+    private String name;
+
     @Schema(description = "값", example = "359")
     @Positive
     private Long value;

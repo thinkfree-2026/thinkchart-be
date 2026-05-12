@@ -144,16 +144,33 @@ public class CircleService {
     }
 
     @Transactional
+    public void releaseChart(String circleId) {
+        Circle circle = circleRepository.findById(circleId).orElseThrow(
+                () -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND)
+        );
+
+        circle.releaseChart();
+        circleRepository.save(circle);
+    }
+
+    @Transactional
     public Circle updateCircleByChart(String circleId, UpdateBarRequest request) {
         Circle circle = circleRepository.findById(circleId).orElseThrow(
                 () -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND)
         );
 
         boolean changed = false;
+
+        if (request.getName() != null && circle.updateName(request.getName())) {
+            changed = true;
+        }
         if (request.getValue() != null && circle.updateValue(request.getValue())) {
             changed = true;
         }
         if (request.getColor() != null && circle.updateColor(request.getColor())) {
+            changed = true;
+        }
+        if (request.getOpacity() != null && circle.updateOpacity(request.getOpacity())) {
             changed = true;
         }
 

@@ -81,6 +81,15 @@ public class ChartController {
                 .body(ApiResponse.success(ApiResponseCode.CHART_RESIZED, response));
     }
 
+    @Operation(summary = "차트 막대 삭제 (HTTP)", description = "선택된 막대를 삭제한다.")
+    @DeleteMapping("/canvas/charts/{chartId}/{barId}")
+    public ResponseEntity<ApiResponse<BarResponse>> deleteBar(@PathVariable String chartId, @PathVariable String barId) {
+        chartService.deleteChartBar(chartId, barId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(ApiResponseCode.CHART_DELETED));
+    }
+
     @MessageMapping("/canvas/charts/{chartId}/cursor")
     @SendTo("/topic/canvas/charts/{chartId}")
     public WsMessage<CursorMovePayload> shareChartCursor(@DestinationVariable String chartId, @Valid @Payload CursorMovePayload payload) {

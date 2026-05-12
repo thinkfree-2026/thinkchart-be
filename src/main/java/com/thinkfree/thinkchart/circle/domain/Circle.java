@@ -31,6 +31,10 @@ public class Circle {
     @CreatedDate
     private Long createdAt;
 
+    public void releaseChart() {
+        this.chartId = null;
+    }
+
     public void updateChartId(String chartId) {
         if (isUsedForChart()) {
             throw new GlobalException(ErrorCode.ALREADY_USED_CIRCLE);
@@ -80,6 +84,14 @@ public class Circle {
             return false;
         }
         this.opacity = opacity;
+        return true;
+    }
+
+    public boolean updateName(String name) {
+        if (Objects.equals(this.name, name)) {
+            return false;
+        }
+        this.name = name;
         return true;
     }
 }

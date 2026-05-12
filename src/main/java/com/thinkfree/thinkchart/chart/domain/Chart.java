@@ -52,4 +52,8 @@ public class Chart {
         this.yAxis = yAxis;
         return true;
     }
+
+    public boolean deleteBar(String barId) {
+        return circleIds.remove(barId);
+    }
 }
