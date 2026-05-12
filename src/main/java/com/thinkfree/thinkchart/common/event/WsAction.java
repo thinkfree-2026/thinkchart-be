@@ -15,5 +15,8 @@ public enum WsAction {
 
     CHART_CREATED,
     CHART_UPDATED,
-    CHART_DELETED
+    CHART_DELETED,
+
+    CHART_BAR_UPDATED,
+    CHART_BAR_DELETED
 }
