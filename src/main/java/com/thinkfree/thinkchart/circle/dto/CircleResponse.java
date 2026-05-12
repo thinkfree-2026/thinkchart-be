@@ -11,7 +11,8 @@ public class CircleResponse {
     private String chartId;
     private double x;
     private double y;
-    private double radius;
+    private long value;
+    private double opacity;
     private String color;
     private Long createdAt;
 
@@ -21,7 +22,8 @@ public class CircleResponse {
                 circle.getChartId(),
                 circle.getX(),
                 circle.getY(),
-                circle.getRadius(),
+                circle.getValue(),
+                circle.getOpacity(),
                 circle.getColor(),
                 circle.getCreatedAt()
         );

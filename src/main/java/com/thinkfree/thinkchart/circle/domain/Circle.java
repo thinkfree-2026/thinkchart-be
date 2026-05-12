@@ -21,9 +21,11 @@ public class Circle {
     private String chartId;
     private double x;
     private double y;
-    private double radius;
+    private long value;
     @Builder.Default
     private String color = "#00a0ac";
+    @Builder.Default
+    private double opacity = 1.0;
     @CreatedDate
     private Long createdAt;
 
@@ -55,11 +57,11 @@ public class Circle {
         return true;
     }
 
-    public boolean updateRadius(Double radius) {
-        if (Objects.equals(this.radius, radius)) {
+    public boolean updateValue(Long value) {
+        if (Objects.equals(this.value, value)) {
             return false;
         }
-        this.radius = radius;
+        this.value = value;
         return true;
     }
 
@@ -68,6 +70,14 @@ public class Circle {
             return false;
         }
         this.color = color;
+        return true;
+    }
+
+    public boolean updateOpacity(Double opacity) {
+        if (Objects.equals(this.opacity, opacity)) {
+            return false;
+        }
+        this.opacity = opacity;
         return true;
     }
 }
