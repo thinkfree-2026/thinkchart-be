@@ -11,9 +11,10 @@ public class BarResponse {
     private String chartId;
     private double value;
     private String color;
+    private double opacity;
 
-    public static BarResponse from(String chartId, String circleId, Circle circle, double ratio) {
-        return new BarResponse(chartId, circleId, circle.getRadius(), circle.getColor());
+    public static BarResponse from(String chartId, String circleId, Circle circle) {
+        return new BarResponse(chartId, circleId, circle.getValue(), circle.getColor(), circle.getOpacity());
     }
 
 }
