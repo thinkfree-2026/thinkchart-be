@@ -2,14 +2,22 @@ package com.thinkfree.thinkchart.chart.controller;
 
 import com.thinkfree.thinkchart.chart.dto.*;
 import com.thinkfree.thinkchart.chart.service.ChartService;
+import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
 import com.thinkfree.thinkchart.common.dto.ApiResponse;
 import com.thinkfree.thinkchart.common.dto.ApiResponseCode;
+import com.thinkfree.thinkchart.common.event.WsAction;
+import com.thinkfree.thinkchart.common.event.WsMessage;
+import com.thinkfree.thinkchart.cursor.dto.CursorMovePayload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,8 +74,11 @@ public class ChartController {
 
     @Operation(summary = "차트 막대 옵션 변경 (HTTP)", description = "선택된 막대의 값/이름/색상을 변경한다.")
     @PatchMapping("/canvas/charts/{chartId}/{barId}")
-    public void updateBar(@PathVariable String chartId, @PathVariable String barId, @RequestBody UpdateBarRequest request) {
-        // 실제 로직은 구현하지 않음 (문서 노출용)
+    public ResponseEntity<ApiResponse<BarResponse>> updateBar(@PathVariable String chartId, @PathVariable String barId, @RequestBody @Valid UpdateBarRequest request) {
+        BarResponse response = chartService.updateChartBar(chartId, barId, request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(ApiResponseCode.CHART_RESIZED, response));
     }
 
 }

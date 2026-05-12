@@ -1,10 +1,7 @@
 package com.thinkfree.thinkchart.chart.service;
 
 import com.thinkfree.thinkchart.chart.domain.Chart;
-import com.thinkfree.thinkchart.chart.dto.ChartDetailResponse;
-import com.thinkfree.thinkchart.chart.dto.ChartResponse;
-import com.thinkfree.thinkchart.chart.dto.CreateChartRequest;
-import com.thinkfree.thinkchart.chart.dto.UpdateChartRequest;
+import com.thinkfree.thinkchart.chart.dto.*;
 import com.thinkfree.thinkchart.chart.repository.ChartRepository;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.service.CircleService;
@@ -15,7 +12,6 @@ import com.thinkfree.thinkchart.common.exception.ErrorCode;
 import com.thinkfree.thinkchart.common.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +24,7 @@ public class ChartService {
     private final CircleService circleService;
     private final ChartRepository chartRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final double VALUE_RADIUS_RATIO = 3;
 
     @Transactional
     public ChartResponse createChart(CreateChartRequest request) {
@@ -115,4 +112,34 @@ public class ChartService {
 
         return response;
     }
+
+    @Transactional
+    public BarResponse updateChartBar(String chartId, String barId, UpdateBarRequest request) {
+        Chart chart = chartRepository.findById(chartId).orElseThrow(
+                () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
+        );
+
+        List<String> circleIds = chart.getCircleIds();
+        if (!circleIds.contains(barId)) {
+            throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
+        }
+
+        Circle updatedCircle = circleService.updateCircleByChart(barId, request, VALUE_RADIUS_RATIO);
+        // TODO: 수정된 circle만 반환할지, 차트에 포함된 circle 전체를 반환할지
+//        List<Circle> circles = circleService.findAllById(circleIds);
+//        ChartDetailResponse response = ChartDetailResponse.from(chart, circles);
+
+
+        BarResponse response = BarResponse.from(chartId, barId, updatedCircle, VALUE_RADIUS_RATIO);
+
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas/charts/" + chartId,
+                        new WsMessage<>(WsAction.CHART_UPDATED, response)
+                )
+        );
+
+        return response;
+    }
+
 }
