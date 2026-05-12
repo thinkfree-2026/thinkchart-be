@@ -144,6 +144,16 @@ public class CircleService {
     }
 
     @Transactional
+    public void releaseChart(String circleId) {
+        Circle circle = circleRepository.findById(circleId).orElseThrow(
+                () -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND)
+        );
+
+        circle.releaseChart();
+        circleRepository.save(circle);
+    }
+
+    @Transactional
     public Circle updateCircleByChart(String circleId, UpdateBarRequest request) {
         Circle circle = circleRepository.findById(circleId).orElseThrow(
                 () -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND)

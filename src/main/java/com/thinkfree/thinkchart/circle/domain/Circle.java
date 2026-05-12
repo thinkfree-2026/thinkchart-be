@@ -31,6 +31,10 @@ public class Circle {
     @CreatedDate
     private Long createdAt;
 
+    public void releaseChart() {
+        this.chartId = null;
+    }
+
     public void updateChartId(String chartId) {
         if (isUsedForChart()) {
             throw new GlobalException(ErrorCode.ALREADY_USED_CIRCLE);
