@@ -13,6 +13,9 @@ import java.util.List;
 public class ChartDetailResponse {
 
     private String chartId;
+    private String name;
+    private String xAxis;
+    private String yAxis;
     private List<CircleResponse> circles;
 
     public static ChartDetailResponse from(Chart chart, List<Circle> circles) {
@@ -20,7 +23,7 @@ public class ChartDetailResponse {
                 .map(circle -> CircleResponse.from(circle))
                 .toList();
 
-        return new ChartDetailResponse(chart.getId(), responses);
+        return new ChartDetailResponse(chart.getId(), chart.getName(), chart.getXAxis(), chart.getYAxis(), responses);
     }
 
 }

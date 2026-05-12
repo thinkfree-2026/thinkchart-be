@@ -24,9 +24,9 @@ public class WebSocketDocsController {
         // 실제 로직은 구현하지 않음 (문서 노출용)
     }
 
-    @Operation(summary = "차트 모달 커서 공유", description = "Destination: /app/canvas/{chartId}/cursor <br> Subscribe: /topic/canvas/{chartId}")
-    @RequestMapping(path = "/docs/app/canvas/{chartId}/cursor", method = RequestMethod.OPTIONS)
-    public void chartModalCursorMoveDocs() {
+    @Operation(summary = "차트 모달 커서 공유", description = "Destination: /app/canvas/charts/{chartId}/cursor <br> Subscribe: /topic/canvas/charts/{chartId}")
+    @RequestMapping(path = "/docs/app/canvas/charts/{chartId}/cursor", method = RequestMethod.OPTIONS)
+    public void chartModalCursorMoveDocs(CursorMovePayload payload) {
         // 실제 로직은 구현하지 않음 (문서 노출용)
     }
 

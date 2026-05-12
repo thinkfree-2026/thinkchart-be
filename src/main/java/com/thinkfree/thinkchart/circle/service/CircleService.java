@@ -1,5 +1,6 @@
 package com.thinkfree.thinkchart.circle.service;
 
+import com.thinkfree.thinkchart.chart.dto.UpdateBarRequest;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
@@ -13,7 +14,6 @@ import com.thinkfree.thinkchart.common.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,4 +138,26 @@ public class CircleService {
     public void deleteByChartId(String id) {
         circleRepository.deleteByChartId(id);
     }
+
+    @Transactional
+    public Circle updateCircleByChart(String circleId, UpdateBarRequest request, double VALUE_RADIUS_RATIO) {
+        Circle circle = circleRepository.findById(circleId).orElseThrow(
+                () -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND)
+        );
+
+        boolean changed = false;
+        if (request.getValue() != null && circle.updateRadius(request.getValue() * VALUE_RADIUS_RATIO)) {
+            changed = true;
+        }
+        if (request.getColor() != null && circle.updateColor(request.getColor())) {
+            changed = true;
+        }
+
+        if (!changed) {
+            return circle;
+        }
+
+        return circleRepository.save(circle);
+    }
+
 }
