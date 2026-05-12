@@ -81,4 +81,16 @@ public class ChartController {
                 .body(ApiResponse.success(ApiResponseCode.CHART_RESIZED, response));
     }
 
+    @MessageMapping("/canvas/charts/{chartId}/cursor")
+    @SendTo("/topic/canvas/charts/{chartId}")
+    public WsMessage<CursorMovePayload> shareChartCursor(@DestinationVariable String chartId, @Valid @Payload CursorMovePayload payload) {
+        return new WsMessage<>(WsAction.CURSOR_MOVE, payload);
+    }
+
+    @MessageMapping("/canvas/charts/{chartId}")
+    @SendTo("/topic/canvas/charts/{chartId}")
+    public WsMessage<?> resizeChartBar(@DestinationVariable String chartId, @Valid @Payload UpdateBarRequest payload) {
+        // TODO: 현재는 차트 바 조절 실시간 브로드캐스팅 기능 미구현. 1차 발표 후 구현 여부 결정.
+        return new WsMessage<>(WsAction.CHART_UPDATED, payload);
+    }
 }
