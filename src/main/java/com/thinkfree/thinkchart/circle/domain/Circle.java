@@ -19,11 +19,13 @@ public class Circle {
     @Id
     private String id;
     private String chartId;
+    @Builder.Default
+    private String name = "";
     private double x;
     private double y;
     private long value;
     @Builder.Default
-    private String color = "#00a0ac";
+    private String color = "#c7d2fe";
     @Builder.Default
     private double opacity = 1.0;
     @CreatedDate
