@@ -150,10 +150,17 @@ public class CircleService {
         );
 
         boolean changed = false;
+
+        if (request.getName() != null && circle.updateName(request.getName())) {
+            changed = true;
+        }
         if (request.getValue() != null && circle.updateValue(request.getValue())) {
             changed = true;
         }
         if (request.getColor() != null && circle.updateColor(request.getColor())) {
+            changed = true;
+        }
+        if (request.getOpacity() != null && circle.updateOpacity(request.getOpacity())) {
             changed = true;
         }
 

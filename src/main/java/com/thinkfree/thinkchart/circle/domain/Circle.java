@@ -82,4 +82,12 @@ public class Circle {
         this.opacity = opacity;
         return true;
     }
+
+    public boolean updateName(String name) {
+        if (Objects.equals(this.name, name)) {
+            return false;
+        }
+        this.name = name;
+        return true;
+    }
 }
