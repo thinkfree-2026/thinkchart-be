@@ -78,6 +78,10 @@ public class CircleService {
         Circle circle = circleRepository.findById(id).orElseThrow(() -> new GlobalException(ErrorCode.CIRCLE_NOT_FOUND));
         boolean changed = false;
 
+        if (request.getUserId() != null && circle.updateUserId(request.getUserId())) {
+            changed = true;
+        }
+
         if (request.getX() != null && circle.updateX(request.getX())) {
             changed = true;
         }

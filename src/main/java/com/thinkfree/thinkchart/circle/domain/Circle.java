@@ -48,6 +48,14 @@ public class Circle {
         return this.chartId != null;
     }
 
+    public boolean updateUserId(String userId) {
+        if (Objects.equals(this.userId, userId)) {
+            return false;
+        }
+        this.userId = userId;
+        return true;
+    }
+
     public boolean updateX(Double x) {
         if (Objects.equals(this.x, x)) {
             return false;
