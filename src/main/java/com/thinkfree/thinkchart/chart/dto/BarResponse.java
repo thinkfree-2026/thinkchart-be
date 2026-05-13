@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BarResponse {
-    private String circleId;
     private String chartId;
+    private String circleId;
     private String name;
     private double value;
     private String color;
