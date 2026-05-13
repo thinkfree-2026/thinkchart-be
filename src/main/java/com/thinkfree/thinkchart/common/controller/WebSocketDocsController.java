@@ -1,5 +1,6 @@
 package com.thinkfree.thinkchart.common.controller;
 
+import com.thinkfree.thinkchart.chart.dto.UpdateBarRequest;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
 import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
 import com.thinkfree.thinkchart.cursor.dto.CursorMovePayload;
@@ -55,6 +56,12 @@ public class WebSocketDocsController {
     @Operation(summary = "차트 모달 커서 공유", description = "Destination: /app/canvas/charts/{chartId}/cursor <br> Subscribe: /topic/canvas/charts/{chartId}")
     @RequestMapping(path = "/docs/app/canvas/charts/{chartId}/cursor", method = RequestMethod.OPTIONS)
     public void chartModalCursorMoveDocs(CursorMovePayload payload) {
+        // 실제 로직은 구현하지 않음 (문서 노출용)
+    }
+
+    @Operation(summary = "차트 모달 바 수정", description = "Destination: /app/canvas/charts/{chartId}/{barId} <br> Subscribe: /topic/canvas/charts/{chartId}")
+    @RequestMapping(path = "/docs/app/canvas/charts/{chartId}/{barId}", method = RequestMethod.OPTIONS)
+    public void chartModalBarResizeDocs(UpdateBarRequest payload) {
         // 실제 로직은 구현하지 않음 (문서 노출용)
     }
 
