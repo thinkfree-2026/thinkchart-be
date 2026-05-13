@@ -135,7 +135,7 @@ public class ChartService {
         eventPublisher.publishEvent(
                 new StompBroadcastEvent(
                         "/topic/canvas/charts/" + chartId,
-                        new WsMessage<>(WsAction.CHART_UPDATED, response)
+                        new WsMessage<>(WsAction.CHART_BAR_UPDATED, response)
                 )
         );
 
@@ -158,5 +158,12 @@ public class ChartService {
         }
 
         chartRepository.save(chart);
+
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas/charts/" + chartId,
+                        new WsMessage<>(WsAction.CHART_BAR_DELETED, barId)
+                )
+        );
     }
 }
