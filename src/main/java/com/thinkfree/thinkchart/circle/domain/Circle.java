@@ -19,6 +19,7 @@ public class Circle {
     @Id
     private String id;
     private String chartId;
+    private String userId;
     @Builder.Default
     private String name = "";
     private double x;
