@@ -1,6 +1,8 @@
 package com.thinkfree.thinkchart.common.event;
 
 public enum WsAction {
+    USER_ASSIGNED,
+
     CURSOR_ENTER,
     CURSOR_MOVE,
     CURSOR_LEAVE,
