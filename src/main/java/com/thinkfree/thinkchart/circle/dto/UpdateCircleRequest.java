@@ -1,18 +1,21 @@
 package com.thinkfree.thinkchart.circle.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Schema(description = "원 수정 요청")
-@ToString
 public class UpdateCircleRequest {
+
+    @Schema(description = "사용자 ID", example = "5a9610ef-4530-8e7f-2958-9c376833b038")
+    @NotBlank
+    private String userId;
 
     @Schema(description = "X좌표", example = "10.2")
     private Double x;

@@ -19,6 +19,7 @@ public class Circle {
     @Id
     private String id;
     private String chartId;
+    private String userId;
     @Builder.Default
     private String name = "";
     private double x;
@@ -45,6 +46,14 @@ public class Circle {
 
     public boolean isUsedForChart() {
         return this.chartId != null;
+    }
+
+    public boolean updateUserId(String userId) {
+        if (Objects.equals(this.userId, userId)) {
+            return false;
+        }
+        this.userId = userId;
+        return true;
     }
 
     public boolean updateX(Double x) {

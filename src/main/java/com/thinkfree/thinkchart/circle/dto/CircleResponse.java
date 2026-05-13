@@ -8,6 +8,7 @@ import lombok.*;
 public class CircleResponse {
 
     private String id;
+    private String userId;
     private String chartId;
     private String name;
     private double x;
@@ -20,6 +21,7 @@ public class CircleResponse {
     public static CircleResponse from(Circle circle) {
         return new CircleResponse(
                 circle.getId(),
+                circle.getUserId(),
                 circle.getChartId(),
                 circle.getName(),
                 circle.getX(),
