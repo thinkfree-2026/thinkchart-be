@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class UpdateCircleRequest {
 
     @Schema(description = "사용자 ID", example = "5a9610ef-4530-8e7f-2958-9c376833b038")
-    @NotBlank
     private String userId;
 
     @Schema(description = "X좌표", example = "10.2")

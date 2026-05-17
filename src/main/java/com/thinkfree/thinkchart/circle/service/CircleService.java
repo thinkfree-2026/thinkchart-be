@@ -59,7 +59,16 @@ public class CircleService {
     @Transactional
     public void deleteCircle(List<String> ids) {
         List<Circle> circles = circleRepository.findAllById(ids);
-        circleRepository.deleteAllById(ids);
+
+        if (circles.size() != ids.size()) {
+            throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
+        }
+
+        if (circles.stream().anyMatch(Circle::isUsedForChart)) {
+            throw new GlobalException(ErrorCode.ALREADY_USED_CIRCLE);
+        }
+
+        circleRepository.deleteAll(circles);
 
         List<CircleResponse> responses = circles.stream()
                 .map(circle -> CircleResponse.from(circle))
