@@ -4,6 +4,7 @@ import com.thinkfree.thinkchart.chart.dto.UpdateBarRequest;
 import com.thinkfree.thinkchart.circle.domain.Circle;
 import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
+import com.thinkfree.thinkchart.circle.dto.CreateCircleResponse;
 import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
 import com.thinkfree.thinkchart.common.event.StompBroadcastEvent;
@@ -28,9 +29,9 @@ public class CircleService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public CircleResponse createCircle(CreateCircleRequest request) {
+    public CreateCircleResponse createCircle(CreateCircleRequest request) {
         Circle circle = circleRepository.save(request.toEntity());
-        CircleResponse response = CircleResponse.from(circle);
+        CreateCircleResponse response = CreateCircleResponse.from(circle, request.getClientCircleId());
 
         eventPublisher.publishEvent(
                 new StompBroadcastEvent(

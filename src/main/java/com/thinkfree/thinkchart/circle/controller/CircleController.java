@@ -2,6 +2,7 @@ package com.thinkfree.thinkchart.circle.controller;
 
 import com.thinkfree.thinkchart.circle.dto.CircleResponse;
 import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
+import com.thinkfree.thinkchart.circle.dto.CreateCircleResponse;
 import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
 import com.thinkfree.thinkchart.circle.service.CircleService;
 import com.thinkfree.thinkchart.common.dto.ApiResponse;
@@ -27,8 +28,8 @@ public class CircleController {
 
     @Operation(summary = "원 생성 (HTTP)", description = "그려진 원을 생성한다.")
     @PostMapping("/canvas/circles")
-    public ResponseEntity<ApiResponse<CircleResponse>> createCircle(@RequestBody @Valid CreateCircleRequest request) {
-        CircleResponse circle = circleService.createCircle(request);
+    public ResponseEntity<ApiResponse<CreateCircleResponse>> createCircle(@RequestBody @Valid CreateCircleRequest request) {
+        CreateCircleResponse circle = circleService.createCircle(request);
         return ResponseEntity
                 .created(URI.create("/api/v1/canvas/circles/" + circle.getId()))
                 .body(ApiResponse.success(ApiResponseCode.CIRCLE_CREATED, circle));
