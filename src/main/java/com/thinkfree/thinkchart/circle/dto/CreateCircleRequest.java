@@ -14,6 +14,10 @@ import lombok.NoArgsConstructor;
 @Schema(description = "원 생성 요청")
 public class CreateCircleRequest {
 
+    @Schema(description = "state매핑용 임시ID", example = "9c376833b038")
+    @NotBlank
+    private String clientCircleId;
+
     @Schema(description = "X좌표", example = "0.8")
     @NotNull
     private Double x;
