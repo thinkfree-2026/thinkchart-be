@@ -65,7 +65,7 @@ public class ChartService {
                 () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
         );
 
-        circleService.deleteByChartId(id);
+        circleService.releaseCharts(chart.getCircleIds());
         chartRepository.delete(chart);
 
         eventPublisher.publishEvent(
