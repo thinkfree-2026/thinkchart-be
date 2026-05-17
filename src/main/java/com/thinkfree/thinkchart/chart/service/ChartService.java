@@ -24,7 +24,6 @@ public class ChartService {
     private final CircleService circleService;
     private final ChartRepository chartRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final long VALUE_RADIUS_RATIO = 3;
 
     @Transactional
     public ChartResponse createChart(CreateChartRequest request) {
@@ -65,7 +64,7 @@ public class ChartService {
                 () -> new GlobalException(ErrorCode.CHART_NOT_FOUND)
         );
 
-        circleService.deleteByChartId(id);
+        circleService.releaseCharts(chart.getCircleIds());
         chartRepository.delete(chart);
 
         eventPublisher.publishEvent(

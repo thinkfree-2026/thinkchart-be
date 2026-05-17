@@ -152,8 +152,15 @@ public class CircleService {
     }
 
     @Transactional
-    public void deleteByChartId(String id) {
-        circleRepository.deleteByChartId(id);
+    public void releaseCharts(List<String> circleIds) {
+        List<Circle> circles = circleRepository.findAllById(circleIds);
+
+        if (circles.size() != circleIds.size()) {
+            throw new GlobalException(ErrorCode.CIRCLE_NOT_FOUND);
+        }
+
+        circles.forEach(circle -> circle.releaseChart());
+        circleRepository.saveAll(circles);
     }
 
     @Transactional
