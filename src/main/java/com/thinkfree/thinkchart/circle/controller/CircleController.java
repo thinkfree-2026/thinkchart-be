@@ -1,9 +1,6 @@
 package com.thinkfree.thinkchart.circle.controller;
 
-import com.thinkfree.thinkchart.circle.dto.CircleResponse;
-import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
-import com.thinkfree.thinkchart.circle.dto.CreateCircleResponse;
-import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
+import com.thinkfree.thinkchart.circle.dto.*;
 import com.thinkfree.thinkchart.circle.service.CircleService;
 import com.thinkfree.thinkchart.common.dto.ApiResponse;
 import com.thinkfree.thinkchart.common.dto.ApiResponseCode;
@@ -67,6 +64,13 @@ public class CircleController {
     @PatchMapping("/canvas/circles/{id}")
     public ResponseEntity<ApiResponse<CircleResponse>> updateCircle(@PathVariable String id, @RequestBody @Valid UpdateCircleRequest request) {
         CircleResponse response = circleService.updateCircle(id, request);
+        return ResponseEntity.ok(ApiResponse.success(ApiResponseCode.CIRCLE_UPDATED, response));
+    }
+
+    @Operation(summary = "원 다중 이동 (HTTP)", description = "선택된 원들을 다중 이동한다.")
+    @PatchMapping("/canvas/circles")
+    public ResponseEntity<ApiResponse<List<CircleResponse>>> moveCircles(@RequestBody @Valid List<MoveCirclesRequest> request) {
+        List<CircleResponse> response = circleService.moveCircles(request);
         return ResponseEntity.ok(ApiResponse.success(ApiResponseCode.CIRCLE_UPDATED, response));
     }
 }
