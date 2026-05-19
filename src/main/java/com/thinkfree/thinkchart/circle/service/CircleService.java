@@ -182,12 +182,14 @@ public class CircleService {
         );
 
         boolean changed = false;
+        boolean valueChanged = false;
 
         if (request.getName() != null && circle.updateName(request.getName())) {
             changed = true;
         }
         if (request.getValue() != null && circle.updateValue(request.getValue())) {
             changed = true;
+            valueChanged = true;
         }
         if (request.getColor() != null && circle.updateColor(request.getColor())) {
             changed = true;
@@ -200,7 +202,22 @@ public class CircleService {
             return circle;
         }
 
-        return circleRepository.save(circle);
+        Circle saved = circleRepository.save(circle);
+
+        if (valueChanged) {
+            resizeCircleByChart(CircleResponse.from(saved));
+        }
+
+        return saved;
+    }
+
+    private void resizeCircleByChart(CircleResponse response) {
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CHART_BAR_UPDATED, response)
+                )
+        );
     }
 
     @Transactional
