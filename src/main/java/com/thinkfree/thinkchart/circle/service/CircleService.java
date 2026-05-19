@@ -258,7 +258,7 @@ public class CircleService {
         eventPublisher.publishEvent(
                 new StompBroadcastEvent(
                         "/topic/canvas",
-                        new WsMessage<>(WsAction.CIRCLE_UPDATED, responses)
+                        new WsMessage<>(WsAction.CIRCLE_MULTI_MOVED, responses)
                 )
         );
 
