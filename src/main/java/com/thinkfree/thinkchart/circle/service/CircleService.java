@@ -2,10 +2,7 @@ package com.thinkfree.thinkchart.circle.service;
 
 import com.thinkfree.thinkchart.chart.dto.UpdateBarRequest;
 import com.thinkfree.thinkchart.circle.domain.Circle;
-import com.thinkfree.thinkchart.circle.dto.CircleResponse;
-import com.thinkfree.thinkchart.circle.dto.CreateCircleRequest;
-import com.thinkfree.thinkchart.circle.dto.CreateCircleResponse;
-import com.thinkfree.thinkchart.circle.dto.UpdateCircleRequest;
+import com.thinkfree.thinkchart.circle.dto.*;
 import com.thinkfree.thinkchart.circle.repository.CircleRepository;
 import com.thinkfree.thinkchart.common.event.StompBroadcastEvent;
 import com.thinkfree.thinkchart.common.event.WsAction;
@@ -19,6 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -202,4 +203,48 @@ public class CircleService {
         return circleRepository.save(circle);
     }
 
+    @Transactional
+    public List<CircleResponse> moveCircles(List<MoveCirclesRequest> requests) {
+        List<String> circleIds = requests.stream()
+                .map(req -> req.getId())
+                .toList();
+
+        List<Circle> circles = circleRepository.findAllById(circleIds);
+
+        Map<String, Circle> circleMap = circles.stream()
+                .collect(Collectors.toMap(
+                        circle -> circle.getId(),
+                        Function.identity())
+                );
+
+        for (MoveCirclesRequest request : requests) {
+            Circle circle = circleMap.get(request.getId());
+
+            if (circle == null) {
+                continue;
+            }
+
+            if (request.getX() != null) {
+                circle.updateX(request.getX());
+            }
+            if (request.getY() != null) {
+                circle.updateY(request.getY());
+            }
+        }
+
+        List<Circle> updatedCircles = circleRepository.saveAll(circles);
+
+        List<CircleResponse> responses = updatedCircles.stream()
+                .map(circle -> CircleResponse.from(circle))
+                .toList();
+
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CIRCLE_UPDATED, responses)
+                )
+        );
+
+        return responses;
+    }
 }
