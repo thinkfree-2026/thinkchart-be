@@ -124,10 +124,6 @@ public class ChartService {
         }
 
         Circle updatedCircle = circleService.updateCircleByChart(barId, request);
-        // TODO: 수정된 circle만 반환할지, 차트에 포함된 circle 전체를 반환할지
-//        List<Circle> circles = circleService.findAllById(circleIds);
-//        ChartDetailResponse response = ChartDetailResponse.from(chart, circles);
-
 
         BarResponse response = BarResponse.from(chartId, barId, updatedCircle);
 
