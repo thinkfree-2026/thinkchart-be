@@ -44,12 +44,12 @@ public class StompBroadcastEventListener {
 
     @EventListener
     public void handleDisconnect(SessionDisconnectEvent event) {
-        sessionIds.remove(event.getSessionId());
-        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
+        String sessionId = event.getSessionId();
+        sessionIds.remove(sessionId);
 
         messagingTemplate.convertAndSend(
                 "/topic/canvas",
-                new WsMessage<>(WsAction.CURSOR_LEAVE, Map.of("id", Objects.requireNonNull(accessor.getSessionId())))
+                new WsMessage<>(WsAction.CURSOR_LEAVE, Map.of("id", sessionId))
         );
     }
 
