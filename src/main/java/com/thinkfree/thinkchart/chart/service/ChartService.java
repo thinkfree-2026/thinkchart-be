@@ -1,5 +1,6 @@
 package com.thinkfree.thinkchart.chart.service;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.thinkfree.thinkchart.chart.domain.Chart;
 import com.thinkfree.thinkchart.chart.dto.*;
 import com.thinkfree.thinkchart.chart.repository.ChartRepository;
@@ -11,6 +12,8 @@ import com.thinkfree.thinkchart.common.event.WsMessage;
 import com.thinkfree.thinkchart.common.exception.ErrorCode;
 import com.thinkfree.thinkchart.common.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +86,7 @@ public class ChartService {
 
         boolean changed = false;
 
-        if (request.getName() != null && chart.updateName(request.getName())) {
+        if (Strings.isNotBlank(request.getName()) && chart.updateName(request.getName())) {
             changed = true;
         }
 
