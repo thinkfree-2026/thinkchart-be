@@ -11,6 +11,7 @@ import java.util.List;
 public class ChartResponse {
     private String id;
     private String name;
+    private String unit;
     private String xAxis;
     private String yAxis;
     private List<String> circleIds;
@@ -20,6 +21,7 @@ public class ChartResponse {
         return new ChartResponse(
                 chart.getId(),
                 chart.getName(),
+                chart.getUnit(),
                 chart.getXAxis(),
                 chart.getYAxis(),
                 chart.getCircleIds(),

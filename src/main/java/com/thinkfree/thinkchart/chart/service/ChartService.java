@@ -87,6 +87,10 @@ public class ChartService {
             changed = true;
         }
 
+        if (request.getUnit() != null && chart.updateUnit(request.getUnit())) {
+            changed = true;
+        }
+
         if (request.getxAxis() != null && chart.updateXAxis(request.getxAxis())) {
             changed = true;
         }
