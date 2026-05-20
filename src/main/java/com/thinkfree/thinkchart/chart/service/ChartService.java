@@ -116,6 +116,13 @@ public class ChartService {
                 )
         );
 
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas/charts/" + id,
+                        new WsMessage<>(WsAction.CHART_UPDATED, response)
+                )
+        );
+
         return response;
     }
 
