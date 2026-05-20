@@ -14,6 +14,10 @@ public class UpdateChartRequest {
     @Getter
     private String name;
 
+    @Schema(description = "단위", example = "kg")
+    @Getter
+    private String unit;
+
     @Schema(description = "X축 이름", example = "팀명")
     private String xAxis;
 

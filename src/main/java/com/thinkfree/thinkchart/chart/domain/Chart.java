@@ -26,6 +26,8 @@ public class Chart {
     private String xAxis = "X축";
     @Builder.Default
     private String yAxis = "Y축";
+    @Builder.Default
+    private String unit = "unit";
     @CreatedDate
     private Long createdAt;
 
@@ -50,6 +52,14 @@ public class Chart {
             return false;
         }
         this.yAxis = yAxis;
+        return true;
+    }
+
+    public boolean updateUnit(String unit) {
+        if (Objects.equals(this.unit, unit)) {
+            return false;
+        }
+        this.unit = unit;
         return true;
     }
 

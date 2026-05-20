@@ -14,6 +14,7 @@ public class ChartDetailResponse {
 
     private String chartId;
     private String name;
+    private String unit;
     private String xAxis;
     private String yAxis;
     private List<CircleResponse> circles;
@@ -23,7 +24,7 @@ public class ChartDetailResponse {
                 .map(circle -> CircleResponse.from(circle))
                 .toList();
 
-        return new ChartDetailResponse(chart.getId(), chart.getName(), chart.getXAxis(), chart.getYAxis(), responses);
+        return new ChartDetailResponse(chart.getId(), chart.getName(), chart.getUnit(), chart.getXAxis(), chart.getYAxis(), responses);
     }
 
 }
