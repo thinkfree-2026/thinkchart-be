@@ -173,6 +173,14 @@ public class CircleService {
 
         circle.releaseChart();
         circleRepository.save(circle);
+
+        CircleResponse response = CircleResponse.from(circle);
+        eventPublisher.publishEvent(
+                new StompBroadcastEvent(
+                        "/topic/canvas",
+                        new WsMessage<>(WsAction.CHART_BAR_DELETED, response)
+                )
+        );
     }
 
     @Transactional
