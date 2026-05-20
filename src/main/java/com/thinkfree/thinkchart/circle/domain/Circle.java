@@ -34,6 +34,7 @@ public class Circle {
 
     public void releaseChart() {
         this.chartId = null;
+        this.name = "";
     }
 
     public void updateChartId(String chartId) {
