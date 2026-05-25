@@ -27,7 +27,7 @@ public class Chart {
     @Builder.Default
     private String yAxis = "Y축";
     @Builder.Default
-    private String unit = "unit";
+    private String unit = "";
     @CreatedDate
     private Long createdAt;
 
